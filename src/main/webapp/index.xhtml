@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+<h:head></h:head>
+
+<body>	
+	<h:form id="formUser">
+		<h:messages showDetail="true" showSummary="false" id="msg"/>
+		<h:panelGrid columns="2">
+			<h:outputLabel>ID:</h:outputLabel>
+			<h:inputText readonly="true" value="#{usuarioBean.usuarioPessoa.id}" />			
+			
+			<h:outputLabel>Nome:</h:outputLabel>
+			<h:inputText value="#{usuarioBean.usuarioPessoa.nome}" required="true" requiredMessage="Informe o nome"/>
+			
+			<h:outputLabel>Login:</h:outputLabel>
+			<h:inputText value="#{usuarioBean.usuarioPessoa.login}" required="true" requiredMessage="Informe o login"/>			
+			
+			<h:outputLabel>Senha:</h:outputLabel>
+			<h:inputSecret value="#{usuarioBean.usuarioPessoa.senha}" required="true" requiredMessage="Informe a senha"/>
+		</h:panelGrid>
+		<h:commandButton value="Salvar" action="#{usuarioBean.salva}" />
+		<h:commandButton value="Novo" type="reset" />		
+	</h:form>
+	
+	
+	
+	
+	<h:form id="formTable">
+		<h:dataTable value="#{usuarioBean.listUsuarioPessoa}" var="user"
+		cellpadding="15" border="1">
+			<f:facet name="header">Lista de Usu�rios</f:facet>
+			
+			<h:column>
+				<f:facet name="header">Id</f:facet>
+				<h:outputText value="#{user.id}"/>
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Nome</f:facet>
+				<h:outputText value="#{user.nome}"/>
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Login</f:facet>
+				<h:outputText value="#{user.login}"/>
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Senha</f:facet>
+				<h:outputText value="#{user.senha}"/>
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Editar</f:facet>
+				<h:commandLink immediate="true" id="btnEditar" action="#{usuarioBean.editar}">
+					<f:setPropertyActionListener value="#{user}" target="#{usuarioBean.usuarioPessoa}" />
+					<h:graphicImage url="resources/img/edit.png"/>
+					<f:ajax execute="btnEditar" render=":formUser"/>
+				</h:commandLink>
+			</h:column>				
+			
+			<h:column>
+				<f:facet name="header">Remover</f:facet>
+				<h:commandLink action="#{usuarioBean.remover}" id="btnRemover" immediate="true">
+					<h:graphicImage url="resources/img/remove.png"/>
+					<f:setPropertyActionListener value="#{user}" target="#{usuarioBean.usuarioPessoa}" />
+					<f:ajax execute="btnRemover" render="@form :formUser:msg" />
+				</h:commandLink>
+			</h:column>	
+		</h:dataTable> 
+	</h:form>
+	
+</body>
+</html>
